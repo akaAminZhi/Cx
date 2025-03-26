@@ -51,6 +51,18 @@ function StepsTable({ children, testSteps }) {
   };
 
   const handlePrevious = () => {
+    // 保存当前步骤的数据
+    const currentRecord = {
+      pfptStep,
+      description: selectedSteps.at(pfptStep)?.description,
+      selectedValue: selected,
+    };
+    // 更新记录，如果当前步骤已存在记录则替换
+    setRecords((prevRecords) => {
+      const newRecords = [...prevRecords];
+      newRecords[pfptStep] = currentRecord;
+      return newRecords;
+    });
     if (pfptStep > 0) {
       const newStep = pfptStep - 1;
       setPfptStep(newStep);
@@ -168,7 +180,7 @@ function SubdevicesSelect() {
 function TestSteps() {
   const { pfptStep, selectedSteps } = useContext(StepsTableContext);
   return (
-    <div className="flex justify-center items-center text-4xl mb-2 bg-white p-2 rounded-2xl min-h-40 ">
+    <div className="flex justify-center items-center text-3xl mb-2 bg-white p-2 rounded-2xl min-h-40 whitespace-pre-line leading-loose">
       {selectedSteps?.at(pfptStep)?.description}
     </div>
   );

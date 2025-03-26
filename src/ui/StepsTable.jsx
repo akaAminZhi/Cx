@@ -179,9 +179,14 @@ function SubdevicesSelect() {
 
 function TestSteps() {
   const { pfptStep, selectedSteps } = useContext(StepsTableContext);
+  const paragraphs = selectedSteps?.at(pfptStep)?.description.split("\n");
   return (
-    <div className="flex justify-center items-center text-3xl mb-2 bg-white p-2 rounded-2xl min-h-40 whitespace-pre-line leading-loose">
-      {selectedSteps?.at(pfptStep)?.description}
+    <div className="flex flex-col justify-center items-start text-3xl mb-2 mt-4 text-black bg-white p-2 rounded-2xl min-h-80 whitespace-pre-line ">
+      {paragraphs.map((para, index) => (
+        <p key={index} className="mb-5">
+          {para}
+        </p>
+      ))}
     </div>
   );
 }

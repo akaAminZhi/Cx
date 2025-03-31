@@ -1,8 +1,19 @@
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useDevices } from "../devices/useDevices";
 import Spinner from "../../ui/Spinner";
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
+import Table from "../../ui/Table";
+import React from "react";
+
+import {
+  HiBattery100,
+  HiBattery0,
+  HiShieldCheck,
+  HiShieldExclamation,
+  HiEye,
+} from "react-icons/hi2";
+import Menus from "../../ui/Menus";
+import { useEnergized } from "../devices/useEnergized";
+import { usePFPTDone } from "../devices/usePFPTDone";
 function ProjectDetail() {
   const { projectId } = useParams();
   const location = useLocation();
@@ -10,6 +21,8 @@ function ProjectDetail() {
   const navigate = useNavigate();
   //   console.log(Number(projectId));
   const { isPending, devicesByProjectId } = useDevices(Number(projectId));
+  const { Energized, isEnergizing } = useEnergized();
+  const { PFPTDone, isPFPTing } = usePFPTDone();
 
   const hoverAcition =
     "hover:scale-103 hover:cursor-pointer hover:font-bold  hover:shadow-lg hover:rounded-xl hover:ring-3 hover:ring-gray-500 ";
@@ -33,33 +46,75 @@ function ProjectDetail() {
   };
   return (
     <>
-      <Row type="horizontal">
-        <Heading>{projectName}</Heading>
-      </Row>
-      <Row>
-        <div className="border-1 border-gray-200 text-2xl rounded-xl overflow-hidden">
-          <header className="grid grid-cols-3 gap-x-10 border-b-1 border-b-gray-100 bg-gray-50 uppercase font-semibold text-gray-600 p-7">
+      <Menus>
+        <Table columns={"1fr 1fr 1fr 5rem"}>
+          <Table.Header>
             <div>DeviceName</div>
+            <div>Energezed</div>
+            <div>PFPT</div>
             <div></div>
-          </header>
-
-          {devicesByProjectId.map((device) => {
-            return (
-              <div
-                className={
-                  "grid grid-cols-2 gap-x-10 border-b-1  rounded  mx-5 my-2 border-b-gray-100 p-8 items-center bg-white transition-all duration-200 " +
-                  hoverAcition +
-                  activeAction
-                }
-                key={device.id}
-                onClick={() => handleClick(device)}
-              >
-                {device.name}
-              </div>
-            );
-          })}
-        </div>
-      </Row>
+          </Table.Header>
+          <Table.Row>
+            {devicesByProjectId.map((device) => {
+              return (
+                <React.Fragment key={device.id}>
+                  <div>{device.name}</div>
+                  <div>
+                    {device.energized ? (
+                      <HiBattery100 className="w-10 h-10 text-green-500" />
+                    ) : (
+                      <HiBattery0 className="w-10 h-10 text-red-500" />
+                    )}
+                  </div>
+                  <div>
+                    {device.PFPT ? (
+                      <HiShieldCheck className="w-10 h-10 text-green-500" />
+                    ) : (
+                      <HiShieldExclamation className="w-10 h-10 text-red-500" />
+                    )}
+                  </div>
+                  <Menus.Menu>
+                    <Menus.Toggle id={device.id} />
+                    <Menus.List id={device.id}>
+                      <Menus.Button icon={<HiEye className="w-10 h-10" />}>
+                        See details
+                      </Menus.Button>
+                      <Menus.Button
+                        icon={
+                          <HiBattery100 className="w-10 h-10 text-green-500" />
+                        }
+                        isDisabled={device.energized}
+                        onClick={() =>
+                          Energized({
+                            deviceId: device.id,
+                            deviceObject: { ...device },
+                          })
+                        }
+                      >
+                        Energized Done
+                      </Menus.Button>
+                      <Menus.Button
+                        icon={
+                          <HiShieldCheck className="w-10 h-10 text-green-500" />
+                        }
+                        isDisabled={device.PFPT}
+                        onClick={() =>
+                          PFPTDone({
+                            deviceId: device.id,
+                            deviceObject: { ...device },
+                          })
+                        }
+                      >
+                        PFPT Done
+                      </Menus.Button>
+                    </Menus.List>
+                  </Menus.Menu>
+                </React.Fragment>
+              );
+            })}
+          </Table.Row>
+        </Table>
+      </Menus>
     </>
   );
 }

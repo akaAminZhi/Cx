@@ -17,7 +17,7 @@ function Row({ children }) {
   const { columns } = useContext(tableConext);
   //   const styleRow = `grid grid-cols-[${columns}] gap-1 items-center  border  px-2 py-3 font-semibold`;
 
-  const styleRow = `grid  gap-1 items-center    px-2 py-1 font-semibold`;
+  const styleRow = `grid  gap-1 items-center  bg-white  px-2 py-1 font-semibold`;
   return (
     <div
       style={{ gridTemplateColumns: columns }}
@@ -30,7 +30,7 @@ function Row({ children }) {
 
 function Header({ children }) {
   const { columns } = useContext(tableConext);
-  const styleHeader = `grid  gap-1 items-center  border  px-2 py-3 font-semibold gap-1 items-center bg-stone-50  border-stone-100 uppercase text-stone-600 tracking-wide`;
+  const styleHeader = `grid  gap-2 items-center  border  px-2 py-3 font-semibold bg-stone-50  border-stone-100 uppercase text-stone-600 tracking-wide `;
   return (
     <header style={{ gridTemplateColumns: columns }} className={styleHeader}>
       {children}

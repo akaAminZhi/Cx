@@ -13,7 +13,7 @@ function Button({
   };
 
   const variations = {
-    primary: "text-white bg-blue-600 hover:bg-blue-700",
+    primary: "text-white bg-indigo-600 hover:bg-indigo-700",
     secondary:
       "text-stone-600 bg-stone-50 border border-stone-200 hover:bg-stone-100",
     danger: "text-red-100 bg-red-700 hover:bg-red-800",

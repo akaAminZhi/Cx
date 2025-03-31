@@ -98,8 +98,9 @@ function StepsTable({ children, testSteps }) {
 
 function TableHeading({ headingContent }) {
   const { pfptStep, numStep } = useContext(StepsTableContext);
+
   return (
-    <div className="mb-16 grid justify-between gap-[1.2rem] grid-cols-[auto_auto] text-[1.8rem] ]">
+    <div className="mb-5 grid justify-between gap-[1.2rem] grid-cols-[auto_auto] text-[1.8rem] ]">
       <Heading>{headingContent}</Heading>
       <div>
         {pfptStep + 1}/{numStep}
@@ -182,7 +183,7 @@ function TestSteps() {
   const paragraphs = selectedSteps?.at(pfptStep)?.description.split("\n");
   return (
     <div className="flex flex-col justify-center items-start text-3xl mb-2 mt-4 text-black bg-white p-2 rounded-2xl min-h-80 whitespace-pre-line ">
-      {paragraphs.map((para, index) => (
+      {paragraphs?.map((para, index) => (
         <p key={index} className="mb-5">
           {para}
         </p>
@@ -199,7 +200,7 @@ function ResultOptions() {
     "active:scale-103 active:cursor-pointer active:font-bold  active:shadow-lg active:rounded-xl active:ring-3 active:ring-gray-500 ";
 
   const selectedAction =
-    "has-checked:scale-103 has-checked:bg-indigo-50 has-checked:font-bold has-checked:text-indigo-900 has-checked:ring-indigo-200";
+    "has-checked:scale-103 has-checked:bg-indigo-50 has-checked:font-bold has-checked:text-indigo-900 has-checked:ring-indigo-200 has-checked:accent-indigo-600";
   return (
     <div className="grid grid-rows-3 gap-4 mt-10 bg-white rounded-3xl p-4 ">
       <label

@@ -51,7 +51,7 @@ function MainNav() {
                     <iterm.iconName
                       className={
                         isActive
-                          ? svgStyle + " text-blue-600 font-semibold"
+                          ? svgStyle + " text-indigo-600 font-semibold"
                           : svgStyle
                       }
                     />

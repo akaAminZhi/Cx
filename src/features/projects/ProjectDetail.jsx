@@ -14,6 +14,7 @@ import {
 import Menus from "../../ui/Menus";
 import { useEnergized } from "../devices/useEnergized";
 import { usePFPTDone } from "../devices/usePFPTDone";
+import DeviceStats from "../dashboard/DeviceStats";
 function ProjectDetail() {
   const { projectId } = useParams();
   const location = useLocation();
@@ -46,6 +47,7 @@ function ProjectDetail() {
   };
   return (
     <>
+      <DeviceStats devices={devicesByProjectId}></DeviceStats>
       <Menus>
         <Table columns={"1fr 1fr 1fr 5rem"}>
           <Table.Header>
@@ -83,7 +85,7 @@ function ProjectDetail() {
                         icon={
                           <HiBattery100 className="w-10 h-10 text-green-500" />
                         }
-                        isDisabled={device.energized}
+                        isDisabled={device.energized || isEnergizing}
                         onClick={() =>
                           Energized({
                             deviceId: device.id,
@@ -97,7 +99,7 @@ function ProjectDetail() {
                         icon={
                           <HiShieldCheck className="w-10 h-10 text-green-500" />
                         }
-                        isDisabled={device.PFPT}
+                        isDisabled={device.PFPT || isPFPTing}
                         onClick={() =>
                           PFPTDone({
                             deviceId: device.id,

@@ -1,7 +1,13 @@
 import { Outlet } from "react-router";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import Spinner from "./Spinner";
+import useProjects from "../features/projects/useProjects";
+import { setGlobalProjects } from "../utils/globalProjects";
 function AppLayout() {
+  const { isPending, projects } = useProjects();
+  if (isPending) return <Spinner></Spinner>;
+  setGlobalProjects(projects);
   return (
     <div className="grid grid-cols-[20rem_1fr] grid-rows-[auto_1fr] h-screen max-w-screen">
       <Header></Header>

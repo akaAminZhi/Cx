@@ -1,4 +1,6 @@
 import supabase from "./supabase";
+import { PAGE_SIZE } from "../utils/constans";
+
 export async function getDevices() {
   const { data, error } = await supabase.from("devices").select("*");
   if (error) {
@@ -8,16 +10,24 @@ export async function getDevices() {
   return data;
 }
 
-export async function getDevicesByProjectId({ ProjectId }) {
-  const { data, error } = await supabase
+export async function getDevicesByProjectIdAndPage({ ProjectId, page }) {
+  let query = supabase
     .from("devices")
-    .select("*")
-    .eq("project_id", ProjectId);
+    .select("*", { count: "exact" })
+    .eq("project_id", ProjectId)
+    .order("id", { ascending: false });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+  const { data, error, count } = await query;
   if (error) {
     console.error(error);
     throw new Error("Device By projectId can not be loaded");
   }
-  return data;
+  return { data, count };
 }
 
 export async function updateDevice(id, obj) {
@@ -33,4 +43,18 @@ export async function updateDevice(id, obj) {
     throw new Error("Device could not be updated");
   }
   return data;
+}
+
+export async function getAllDevicesByProjectId({ ProjectId }) {
+  let query = supabase
+    .from("devices")
+    .select("*", { count: "exact" })
+    .eq("project_id", ProjectId);
+
+  const { data, error, count } = await query;
+  if (error) {
+    console.error(error);
+    throw new Error("Device By projectId can not be loaded");
+  }
+  return { data, count };
 }

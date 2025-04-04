@@ -10,6 +10,7 @@ export function usePFPTDone() {
       updateDevice(deviceId, {
         ...deviceObject,
         PFPT: true,
+        actual_finish_time_PFPT: new Date(),
       }),
 
     onSuccess: (data) => {

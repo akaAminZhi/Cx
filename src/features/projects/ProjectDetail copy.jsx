@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router";
-import { useDevices } from "../devices/useDevices";
+import { useDevicesByProjectIdAndPage } from "../devices/useDevices";
 import Spinner from "../../ui/Spinner";
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
@@ -9,7 +9,9 @@ function ProjectDetail() {
   const { projectName } = location.state || {};
   const navigate = useNavigate();
   //   console.log(Number(projectId));
-  const { isPending, devicesByProjectId } = useDevices(Number(projectId));
+  const { isPending, devicesByProjectId } = useDevicesByProjectIdAndPage(
+    Number(projectId)
+  );
 
   const hoverAcition =
     "hover:scale-103 hover:cursor-pointer hover:font-bold  hover:shadow-lg hover:rounded-xl hover:ring-3 hover:ring-gray-500 ";

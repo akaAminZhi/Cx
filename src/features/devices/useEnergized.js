@@ -10,6 +10,7 @@ export function useEnergized() {
       updateDevice(deviceId, {
         ...deviceObject,
         energized: true,
+        actual_finish_time_energized: new Date(),
       }),
 
     onSuccess: (data) => {

@@ -10,7 +10,7 @@ function PFPTTable() {
   const { deviceId } = useParams();
   const location = useLocation();
   const { projectName, deviceName } = location.state || {};
-
+  // console.log(projectName);
   if (deviceName.toLowerCase() === "lighting control") {
     const { isPending, PFPTSteps } = usePFPT(deviceId);
     const [showTable, setShowTable] = useState(true);

@@ -14,6 +14,10 @@ import {
   HiShieldExclamation,
   HiEye,
 } from "react-icons/hi2";
+
+import { formatInTimeZone } from "date-fns-tz";
+import { enUS } from "date-fns/locale";
+
 import Menus from "../../ui/Menus";
 import { useEnergized } from "../devices/useEnergized";
 import { usePFPTDone } from "../devices/usePFPTDone";
@@ -25,7 +29,6 @@ function ProjectDetail() {
   const location = useLocation();
   const { projectName } = location.state || {};
   const navigate = useNavigate();
-  //   console.log(Number(projectId));
   const { isPending, devicesByProjectIdAndPage, count } =
     useDevicesByProjectIdAndPage(Number(projectId));
   const { isPending: getAllDevicesPending, devicesByProjectId } =
@@ -52,6 +55,17 @@ function ProjectDetail() {
       navigateToDevice();
     }
   };
+  const timeZone = "America/New_York";
+  // 定义格式化模式
+  const pattern = "MMMM dd yyyy";
+  function localDateString(utcDateString) {
+    const localDate =
+      utcDateString &&
+      formatInTimeZone(new Date(utcDateString), timeZone, pattern, {
+        locale: enUS,
+      });
+    return localDate;
+  }
   return (
     <>
       <DeviceStats devices={devicesByProjectId}></DeviceStats>
@@ -69,16 +83,36 @@ function ProjectDetail() {
                 <div>{device.name}</div>
                 <div>
                   {device.energized ? (
-                    <HiBattery100 className="w-10 h-10 text-green-500" />
+                    <>
+                      <HiBattery100 className="w-10 h-10 text-green-500" />
+                      <span className="text-lg text-green-500">
+                        {localDateString(device.actual_finish_time_energized)}
+                      </span>
+                    </>
                   ) : (
-                    <HiBattery0 className="w-10 h-10 text-red-500" />
+                    <>
+                      <HiBattery0 className="w-10 h-10 text-orange-500" />
+                      <span className="text-lg text-orange-500">
+                        {localDateString(device.estimated_time_of_enegized)}
+                      </span>
+                    </>
                   )}
                 </div>
                 <div>
                   {device.PFPT ? (
-                    <HiShieldCheck className="w-10 h-10 text-green-500" />
+                    <>
+                      <HiShieldCheck className="w-10 h-10 text-green-500" />
+                      <span className="text-lg text-green-500">
+                        {localDateString(device.actual_finish_time_PFPT)}
+                      </span>
+                    </>
                   ) : (
-                    <HiShieldExclamation className="w-10 h-10 text-red-500" />
+                    <>
+                      <HiShieldExclamation className="w-10 h-10 text-orange-500" />
+                      <span className="text-lg text-orange-500">
+                        {localDateString(device.estimated_time_of_PFPT)}
+                      </span>
+                    </>
                   )}
                 </div>
                 <Menus.Menu>

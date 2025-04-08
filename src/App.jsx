@@ -32,6 +32,11 @@ function App() {
     queryClient,
     persister: localStoragePersister,
     maxAge: 60 * 1000,
+    dehydrateOptions: {
+      shouldDehydrateQuery: (query) => {
+        return query.queryKey[0] === "projects"; // 👈 your condition
+      },
+    },
   });
   return (
     <QueryClientProvider client={queryClient}>
@@ -73,8 +78,6 @@ function App() {
             fontSize: "16px",
             maxWidth: "500px",
             padding: "16px 24px",
-            backgroundColor: "var(--color-grey-0)",
-            color: "var(--color-grey-700)",
           },
         }}
       />

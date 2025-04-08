@@ -9,7 +9,10 @@ function Form({ type, children, ...props }) {
       </form>
     );
   return (
-    <form className={`${commentStyle} py-6 px-12 border rounded-md`} {...props}>
+    <form
+      className={`${commentStyle} py-6 px-12 bg-white rounded-xl`}
+      {...props}
+    >
       {children}
     </form>
   );

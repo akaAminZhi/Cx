@@ -58,3 +58,17 @@ export async function getAllDevicesByProjectId({ ProjectId }) {
   }
   return { data, count };
 }
+
+export async function upsertDevices(cleanData) {
+  // console.log(cleanData);
+  const { data, error } = await supabase.from("devices").upsert(cleanData, {
+    onConflict: "id", // change this to your primary key
+    ignoreDuplicates: false,
+  });
+
+  if (error) {
+    console.error(error);
+    throw new Error("upsert failed");
+  }
+  return data;
+}

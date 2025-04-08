@@ -29,8 +29,8 @@ function Toggle({ id }) {
   function hanldeClick(e) {
     const rect = e.target.closest("button").getBoundingClientRect();
     setPosition({
-      x: window.innerWidth - rect.width - rect.x,
-      y: rect.y + rect.height + 8,
+      x: window.innerWidth - rect.width - rect.x + 25,
+      y: rect.y + rect.height - 40,
     });
 
     if (id !== openId || id === "") {

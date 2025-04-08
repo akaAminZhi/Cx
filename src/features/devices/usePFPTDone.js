@@ -16,6 +16,11 @@ export function usePFPTDone() {
     onSuccess: (data) => {
       toast.success(`Device ${data.name} successfully set PFPT Done`);
       queryClient.invalidateQueries({ active: true });
+
+      // queryClient.invalidateQueries({
+      //   queryKey: ["devicesByProjectIdAndPage", "devicesByProjectId"],
+      //   exact: false,
+      // });
     },
 
     onError: () => toast.error("There was an error while PFPTing"),

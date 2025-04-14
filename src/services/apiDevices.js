@@ -1,5 +1,7 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constans";
+import { addDays, endOfISOWeek, startOfISOWeek, subDays } from "date-fns";
+import { getStartOfThisWeek } from "../utils/helpers";
 
 export async function getDevices() {
   const { data, error } = await supabase.from("devices").select("*");
@@ -10,13 +12,40 @@ export async function getDevices() {
   return data;
 }
 
-export async function getDevicesByProjectIdAndPage({ ProjectId, page }) {
+export async function getDevicesByProjectIdAndPage({
+  ProjectId,
+  page,
+  filter,
+}) {
   let query = supabase
     .from("devices")
     .select("*", { count: "exact" })
     .eq("project_id", ProjectId)
     .order("id", { ascending: false });
-
+  // const queryDate = addDays(new Date(), 10).toISOString();
+  // console.log(queryDate);
+  // console.log(getStartOfThisWeek());
+  // console.log(endOfISOWeek(new Date()));
+  // FILTER
+  if (filter) {
+    if (filter.value === "energized")
+      query = query[filter.method || "eq"]("energized", true);
+    if (filter.value === "PFPT")
+      query = query[filter.method || "eq"]("PFPT", true);
+    if (filter.value === "not_energized")
+      query = query[filter.method || "eq"]("energized", false);
+    if (filter.value === "task_this_week") {
+      const today = new Date();
+      const start = startOfISOWeek(today).toISOString();
+      const end = endOfISOWeek(today).toISOString();
+      query = query.or(
+        `and(estimated_time_of_enegized.gte.${start},estimated_time_of_enegized.lte.${end}),and(estimated_time_of_PFPT.gte.${start},estimated_time_of_PFPT.lte.${end})`
+      );
+      // query = query
+      //   .gte("estimated_time_of_enegized", start)
+      //   .lte("estimated_time_of_enegized", end);
+    }
+  }
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;

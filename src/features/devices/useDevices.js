@@ -10,6 +10,13 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
   //   console.log(ProjectId);
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+
+  // FILTER
+  const filterValue = searchParams.get("status");
+  const filter =
+    !filterValue || filterValue === "all"
+      ? null
+      : { field: "status", value: filterValue };
   // PAGINATION
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
   const {
@@ -17,8 +24,8 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
     data: { data: devicesByProjectIdAndPage, count } = {},
     error,
   } = useQuery({
-    queryKey: ["devicesByProjectIdAndPage", ProjectId, page],
-    queryFn: () => getDevicesByProjectIdAndPage({ ProjectId, page }),
+    queryKey: ["devicesByProjectIdAndPage", ProjectId, page, filter],
+    queryFn: () => getDevicesByProjectIdAndPage({ ProjectId, page, filter }),
   });
 
   // PRE-FETCHING
@@ -26,16 +33,16 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
 
   if (page < pageCount) {
     queryClient.prefetchQuery({
-      queryKey: ["devicesByProjectIdAndPage", ProjectId, page + 1],
+      queryKey: ["devicesByProjectIdAndPage", ProjectId, page + 1, filter],
       queryFn: () =>
-        getDevicesByProjectIdAndPage({ ProjectId, page: page + 1 }),
+        getDevicesByProjectIdAndPage({ ProjectId, page: page + 1, filter }),
     });
   }
   if (page > 1) {
     queryClient.prefetchQuery({
-      queryKey: ["devicesByProjectIdAndPage", ProjectId, page - 1],
+      queryKey: ["devicesByProjectIdAndPage", ProjectId, page - 1, filter],
       queryFn: () =>
-        getDevicesByProjectIdAndPage({ ProjectId, page: page - 1 }),
+        getDevicesByProjectIdAndPage({ ProjectId, page: page - 1, filter }),
     });
   }
   return { isPending, error, devicesByProjectIdAndPage, count };

@@ -17,7 +17,7 @@ export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
   if (!session.session) return null;
   const { data, error } = await supabase.auth.getUser();
-  console.log(data);
+  // console.log(data);
   if (error) {
     console.error(error);
     throw new Error("Device By projectId can not be loaded");

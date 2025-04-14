@@ -5,6 +5,7 @@ import {
 } from "../devices/useDevices";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
+import Row from "../../ui/Row";
 import React from "react";
 
 import {
@@ -23,6 +24,7 @@ import { useEnergized } from "../devices/useEnergized";
 import { usePFPTDone } from "../devices/usePFPTDone";
 import DeviceStats from "../dashboard/DeviceStats";
 import Pagination from "../../ui/Pagination";
+import DeviceTableOperation from "../devices/DeviceTableOperation";
 
 function ProjectDetail() {
   const { projectId } = useParams();
@@ -36,25 +38,26 @@ function ProjectDetail() {
   const { Energized, isEnergizing } = useEnergized();
   const { PFPTDone, isPFPTing } = usePFPTDone();
 
-  const hoverAcition =
-    "hover:scale-103 hover:cursor-pointer hover:font-bold  hover:shadow-lg hover:rounded-xl hover:ring-3 hover:ring-gray-500 ";
-  const activeAction =
-    "active:scale-103 active:cursor-pointer active:font-bold  active:shadow-lg active:rounded-xl active:ring-3 active:ring-gray-500 ";
-  if (isPending || getAllDevicesPending) return <Spinner></Spinner>;
-  const handleClick = (device) => {
-    const { id: deviceId, name: deviceName } = device;
-    const navigateToDevice = () =>
-      navigate(`/projects/${projectId}/pfpt/${deviceId}`, {
-        state: { projectName, deviceName },
-      });
+  // const hoverAcition =
+  //   "hover:scale-103 hover:cursor-pointer hover:font-bold  hover:shadow-lg hover:rounded-xl hover:ring-3 hover:ring-gray-500 ";
+  // const activeAction =
+  //   "active:scale-103 active:cursor-pointer active:font-bold  active:shadow-lg active:rounded-xl active:ring-3 active:ring-gray-500 ";
+  // const handleClick = (device) => {
+  //   const { id: deviceId, name: deviceName } = device;
+  //   const navigateToDevice = () =>
+  //     navigate(`/projects/${projectId}/pfpt/${deviceId}`, {
+  //       state: { projectName, deviceName },
+  //     });
 
-    // 在移动设备上延迟跳转以展示 active 效果
-    if (window.matchMedia("(max-width: 1028px)").matches) {
-      setTimeout(navigateToDevice, 300);
-    } else {
-      navigateToDevice();
-    }
-  };
+  //   // 在移动设备上延迟跳转以展示 active 效果
+  //   if (window.matchMedia("(max-width: 1028px)").matches) {
+  //     setTimeout(navigateToDevice, 300);
+  //   } else {
+  //     navigateToDevice();
+  //   }
+  // };
+  if (isPending || getAllDevicesPending) return <Spinner></Spinner>;
+
   const timeZone = "America/New_York";
   // 定义格式化模式
   const pattern = "MMMM dd yyyy";
@@ -69,6 +72,10 @@ function ProjectDetail() {
   return (
     <>
       <DeviceStats devices={devicesByProjectId}></DeviceStats>
+      <Row type="horizontal">
+        <p>Devices</p>
+        <DeviceTableOperation></DeviceTableOperation>
+      </Row>
       <Menus>
         <Table columns={"1fr 1fr 1fr 5rem"}>
           <Table.Header>

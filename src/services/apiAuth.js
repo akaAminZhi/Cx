@@ -9,7 +9,7 @@ export async function login({ email, password }) {
     console.error(error);
     throw new Error("Device By projectId can not be loaded");
   }
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -23,4 +23,9 @@ export async function getCurrentUser() {
     throw new Error("Device By projectId can not be loaded");
   }
   return data?.user;
+}
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error(error.message);
 }

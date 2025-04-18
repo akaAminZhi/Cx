@@ -25,6 +25,7 @@ import { usePFPTDone } from "../devices/usePFPTDone";
 import DeviceStats from "../dashboard/DeviceStats";
 import Pagination from "../../ui/Pagination";
 import DeviceTableOperation from "../devices/DeviceTableOperation";
+import { useProjectDeviceStats } from "../devices/useProjectDeviceStats";
 
 function ProjectDetail() {
   const { projectId } = useParams();
@@ -33,8 +34,10 @@ function ProjectDetail() {
   const navigate = useNavigate();
   const { isPending, devicesByProjectIdAndPage, count } =
     useDevicesByProjectIdAndPage(Number(projectId));
-  const { isPending: getAllDevicesPending, devicesByProjectId } =
-    useDevicesByProjectId(Number(projectId));
+  // const { isPending: getAllDevicesPending, devicesByProjectId } =
+  //   useDevicesByProjectId(Number(projectId));
+  const { isPending: getProjectDeviceStatsPending, projectDeviceStats } =
+    useProjectDeviceStats();
   const { Energized, isEnergizing } = useEnergized();
   const { PFPTDone, isPFPTing } = usePFPTDone();
 
@@ -56,7 +59,10 @@ function ProjectDetail() {
   //     navigateToDevice();
   //   }
   // };
-  if (isPending || getAllDevicesPending) return <Spinner></Spinner>;
+  if (isPending || getProjectDeviceStatsPending) return <Spinner></Spinner>;
+  const currentProjectDeviceStats = projectDeviceStats.find(
+    (projectStats) => projectStats.project_id === Number(projectId)
+  );
 
   const timeZone = "America/New_York";
   // 定义格式化模式
@@ -71,7 +77,7 @@ function ProjectDetail() {
   }
   return (
     <>
-      <DeviceStats devices={devicesByProjectId}></DeviceStats>
+      <DeviceStats devices={currentProjectDeviceStats}></DeviceStats>
       <Row type="horizontal">
         <p>Devices</p>
         <DeviceTableOperation></DeviceTableOperation>
@@ -80,7 +86,7 @@ function ProjectDetail() {
         <Table columns={"1fr 1fr 1fr 5rem"}>
           <Table.Header>
             <div>DeviceName</div>
-            <div>Energezed</div>
+            <div>Energized</div>
             <div>PFPT</div>
             <div></div>
           </Table.Header>
@@ -90,12 +96,12 @@ function ProjectDetail() {
                 <div>{device.name}</div>
                 <div>
                   {device.energized ? (
-                    <>
-                      <HiBattery100 className="w-10 h-10 text-green-500" />
+                    <div className="relative  ">
+                      <HiBattery100 className="w-10 h-10 text-green-500 " />
                       <span className="text-lg text-green-500">
                         {localDateString(device.actual_finish_time_energized)}
                       </span>
-                    </>
+                    </div>
                   ) : (
                     <>
                       <HiBattery0 className="w-10 h-10 text-orange-500" />

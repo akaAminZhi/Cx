@@ -8,22 +8,22 @@ import { useEffect } from "react";
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   // load user
-  const { user, isPending, error } = useUser();
+  const { user, isPending, isAuthenticated } = useUser();
   // while loading show spinner
   // if not auth, redirect to /login
   useEffect(
     function () {
-      if (user?.role !== "authenticated" && !isPending) {
+      if (!isAuthenticated && !isPending) {
         console.log("haha");
         navigate("/login");
       }
     },
-    [user, isPending, navigate]
+    [isAuthenticated, isPending, navigate]
   );
   if (isPending) return <Spinner></Spinner>;
 
   //   if yes show
-  return children;
+  if (user?.role === "authenticated") return children;
 }
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,

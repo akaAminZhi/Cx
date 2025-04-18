@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router";
 import { HiOutlinePaperAirplane } from "react-icons/hi2";
 import { getCurrentPath } from "../utils/analysePath";
+import Button from "./Button";
+import Logout from "../features/authentication/Logout";
 
 function Header() {
   const location = useLocation();
@@ -14,7 +16,7 @@ function Header() {
   // 累加路径用于生成点击跳转的路径
   let accumulatedPath = "";
   return (
-    <header className="p-[1.2rem_4.8rem] border-b-2 border-b-gray-100">
+    <header className="p-[1.2rem_4.8rem] border-b-2 border-b-gray-100 flex justify-between">
       <nav className="flex items-center gap-2">
         {pathSegments.map((segment, index) => {
           // 累加路径，例如 '/projects' 或 '/projects/1'
@@ -41,6 +43,7 @@ function Header() {
           );
         })}
       </nav>
+      <Logout></Logout>
     </header>
   );
 }

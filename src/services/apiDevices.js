@@ -2,6 +2,7 @@ import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constans";
 import { addDays, endOfISOWeek, startOfISOWeek, subDays } from "date-fns";
 import { getStartOfThisWeek } from "../utils/helpers";
+import { endOfDay, startOfDay } from "date-fns";
 
 export async function getDevices() {
   const { data, error } = await supabase.from("devices").select("*");
@@ -98,6 +99,34 @@ export async function upsertDevices(cleanData) {
   if (error) {
     console.error(error);
     throw new Error("upsert failed");
+  }
+  return data;
+}
+
+export async function getProjectDeviceStats() {
+  const { data, error } = await supabase
+    .from("project_device_stats")
+    .select("*");
+  if (error) {
+    console.error(error);
+    throw new Error("Device By projectId can not be loaded");
+  }
+  return data;
+}
+
+export async function getTodayTask() {
+  const today = new Date();
+  const start = startOfDay(today).toISOString();
+  const end = endOfDay(today).toISOString();
+  const { data, error } = await supabase
+    .from("devices")
+    .select("*")
+    .or(
+      `and(energized.eq.false,estimated_time_of_enegized.gte.${start},estimated_time_of_enegized.lte.${end}),and(PFPT.eq.false,estimated_time_of_PFPT.gte.${start},estimated_time_of_PFPT.lte.${end})`
+    );
+  if (error) {
+    console.error(error);
+    throw new Error("Device getTodayTask error");
   }
   return data;
 }

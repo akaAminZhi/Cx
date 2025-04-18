@@ -27,99 +27,90 @@ export default function Switchgear({
 
   return (
     <>
-      <svg width={totalWidth + x} height={totalSvgHeight + y}>
-        <g transform={`translate(${x}, ${y})`}>
-          {/* Glow filter */}
-          <defs>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
+      {/* <svg width={totalWidth + x} height={totalSvgHeight + y}> */}
+      <g transform={`translate(${x}, ${y})`}>
+        {/* Glow filter */}
 
-          {energized && <FlashIcon x={(totalWidth + x) / 2} y={y + 50} />}
+        {energized && <FlashIcon x={totalWidth / 2} y={50} />}
 
-          {/* Enclosure */}
-          <rect
-            x={0}
-            y={FLASH_SPACE}
-            width={totalWidth}
-            height={enclosureHeight}
-            fill="#f0f0f0"
-            stroke="#333"
-            strokeWidth={2}
-            rx={10}
-          />
-          <text
-            x={totalWidth / 2}
-            y={FLASH_SPACE - 5}
-            textAnchor="middle"
-            fontSize={20}
-            fill="#333"
-          >
-            {name}
-          </text>
-          {/* Sections */}
-          {sections.map((breakerCount, sectionIndex) => {
-            const sectionX =
-              ENCLOSURE_PADDING +
-              sectionIndex * (SECTION_WIDTH + SECTION_SPACING);
-            const sectionY = ENCLOSURE_PADDING + FLASH_SPACE;
+        {/* Enclosure */}
+        <rect
+          x={0}
+          y={FLASH_SPACE}
+          width={totalWidth}
+          height={enclosureHeight}
+          fill="#f0f0f0"
+          stroke="#333"
+          strokeWidth={2}
+          rx={10}
+        />
+        <text
+          x={totalWidth / 2}
+          y={FLASH_SPACE - 5}
+          textAnchor="middle"
+          fontSize={20}
+          fill="#333"
+        >
+          {name}
+        </text>
+        {/* Sections */}
+        {sections.map((breakerCount, sectionIndex) => {
+          const sectionX =
+            ENCLOSURE_PADDING +
+            sectionIndex * (SECTION_WIDTH + SECTION_SPACING);
+          const sectionY = ENCLOSURE_PADDING + FLASH_SPACE;
 
-            return (
-              <g key={sectionIndex}>
-                {/* Section box */}
-                <rect
-                  x={sectionX}
-                  y={sectionY}
-                  width={SECTION_WIDTH}
-                  height={SECTION_HEIGHT}
-                  fill="#ffffff"
-                  stroke="#666"
-                  strokeWidth={1.5}
-                />
+          return (
+            <g key={sectionIndex}>
+              {/* Section box */}
+              <rect
+                x={sectionX}
+                y={sectionY}
+                width={SECTION_WIDTH}
+                height={SECTION_HEIGHT}
+                fill="#ffffff"
+                stroke="#666"
+                strokeWidth={1.5}
+              />
 
-                {/* Breakers */}
-                {Array.from({ length: breakerCount }).map((_, breakerIndex) => {
-                  const totalBreakerArea =
-                    BREAKER_HEIGHT * 3 + BREAKER_SPACING * 2;
-                  const offsetY =
-                    (SECTION_HEIGHT - totalBreakerArea) / 2 +
-                    (BREAKER_HEIGHT + BREAKER_SPACING) * breakerIndex;
+              {/* Breakers */}
+              {Array.from({ length: breakerCount }).map((_, breakerIndex) => {
+                const totalBreakerArea =
+                  BREAKER_HEIGHT * 3 + BREAKER_SPACING * 2;
+                const offsetY =
+                  (SECTION_HEIGHT - totalBreakerArea) / 2 +
+                  (BREAKER_HEIGHT + BREAKER_SPACING) * breakerIndex;
 
-                  return (
-                    <rect
-                      key={breakerIndex}
-                      x={sectionX + 10}
-                      y={sectionY + offsetY}
-                      width={SECTION_WIDTH - 20}
-                      height={BREAKER_HEIGHT}
-                      fill="#cce5ff"
-                      stroke="#004080"
-                      strokeWidth={1}
-                      rx={4}
-                    />
-                  );
-                })}
+                return (
+                  <rect
+                    key={breakerIndex}
+                    x={sectionX + 10}
+                    y={sectionY + offsetY}
+                    width={SECTION_WIDTH - 20}
+                    height={BREAKER_HEIGHT}
+                    fill="#cce5ff"
+                    stroke="#004080"
+                    strokeWidth={1}
+                    rx={4}
+                  />
+                );
+              })}
 
-                {/* Section label */}
-                <text
-                  x={sectionX + SECTION_WIDTH / 2}
-                  y={sectionY + SECTION_HEIGHT + 15}
-                  textAnchor="middle"
-                  fontSize={12}
-                  fill="#333"
-                >
-                  Section {sectionIndex + 1}
-                </text>
-              </g>
-            );
-          })}
-        </g>
-      </svg>
+              {/* Section label */}
+              <text
+                x={sectionX + SECTION_WIDTH / 2}
+                y={sectionY + SECTION_HEIGHT + 15}
+                textAnchor="middle"
+                fontSize={12}
+                fill="#333"
+              >
+                Section {sectionIndex + 1}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+      {/* </svg> */}
     </>
   );
 }

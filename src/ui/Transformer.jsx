@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import FlashIcon from "./FlashIcon";
 
 function Transformer({ x, y, name, energized }) {
   const bodyColor = energized ? "#7ec8e3" : "#ccc";
@@ -15,7 +16,7 @@ function Transformer({ x, y, name, energized }) {
         strokeWidth={2}
         rx={8}
       />
-
+      {energized && <FlashIcon x={50} y={0 - 20} />}
       {/* Name label */}
       <text x={50} y={-10} textAnchor="middle" fontSize="14" fontWeight="bold">
         {name}

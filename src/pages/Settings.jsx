@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HiCog, HiBattery100, HiShieldCheck } from "react-icons/hi2";
-import { FaBeer } from "react-icons/fa";
 import Switchgear from "../ui/Switchgear";
 import ATS from "../ui/ATS";
-import PowerDiagram from "../ui/PowerDiagram";
 import Panelboard from "../ui/Panelboard";
 import Transformer from "../ui/Transformer";
+import LSB_Normal_Raiser from "../ui/LSB_Normal_Raiser";
 
 const fixedATSList = [
   { name: "ATS-1", x: 400, y: 400 },
@@ -18,6 +17,27 @@ const data = [
   { name: "ATS-3", energized: false },
 ];
 function Settings() {
+  const containerRef = useRef(null);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+      const zoomFactor = 0.1;
+      if (e.deltaY < 0) {
+        setScale((prev) => prev * (1 + zoomFactor));
+      } else {
+        setScale((prev) => Math.max(0.1, prev * (1 - zoomFactor)));
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
   const deviceMap = new Map(data.map((item) => [item.name, item]));
 
   // 缩放状态
@@ -30,15 +50,15 @@ function Settings() {
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
   // 处理鼠标滚轮，调整缩放比例
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const zoomFactor = 0.1;
-    if (e.deltaY < 0) {
-      setScale((prev) => prev * (1 + zoomFactor));
-    } else {
-      setScale((prev) => Math.max(0.1, prev * (1 - zoomFactor)));
-    }
-  };
+  // const handleWheel = (e) => {
+  //   // e.preventDefault();
+  //   const zoomFactor = 0.1;
+  //   if (e.deltaY < 0) {
+  //     setScale((prev) => prev * (1 + zoomFactor));
+  //   } else {
+  //     setScale((prev) => Math.max(0.1, prev * (1 - zoomFactor)));
+  //   }
+  // };
 
   // 鼠标按下时开始拖拽
   const handleMouseDown = (e) => {
@@ -68,13 +88,14 @@ function Settings() {
   return (
     <>
       <div
+        ref={containerRef}
         className="overflow-hidden border"
         style={{
           width: "100%",
           height: "500px",
           cursor: isDragging ? "grabbing" : "grab",
         }}
-        onWheel={handleWheel}
+        // onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -85,9 +106,8 @@ function Settings() {
           <g
             transform={`translate(${translate.x}, ${translate.y}) scale(${scale})`}
           >
-            {/* 示例图形 */}
-
-            <Switchgear
+            <LSB_Normal_Raiser />
+            {/* <Switchgear
               sections={[3, 3, 3, 3, 1, 1, 1, 1, 3, 3, 3, 3]}
               energized={true}
               x={0}
@@ -95,7 +115,6 @@ function Settings() {
             <Panelboard name="PANEL-1" x={-200} y={100} energized={true} />
             <Transformer name="T-1" x={-400} y={100} energized={true} />
 
-            {/* <ATS x={400} y={400} name={"ATS-1"} energized={true} /> */}
             {fixedATSList.map((item) => {
               const device = deviceMap.get(item.name);
               return (
@@ -107,9 +126,7 @@ function Settings() {
                   energized={device?.energized ?? false}
                 />
               );
-            })}
-            {/* <PowerDiagram></PowerDiagram> */}
-            {/* 其他 SVG 元素 */}
+            })} */}
           </g>
         </svg>
       </div>

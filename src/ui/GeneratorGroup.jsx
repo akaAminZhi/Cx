@@ -9,7 +9,7 @@ export default function GeneratorGroup({
   y = 0,
   stroke = "currentColor",
   strokeWidth = 5,
-  energized = true,
+  energized = false,
   name = "G1",
   ...rest
 }) {
@@ -20,7 +20,7 @@ export default function GeneratorGroup({
       strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={energized && "fill-yellow-300"}
+      className={energized ? "fill-yellow-300" : "fill-none"}
       {...rest}
     >
       {energized && <FlashIcon x={40} y={-20} />}

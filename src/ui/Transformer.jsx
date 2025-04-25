@@ -11,14 +11,15 @@ function Transformer({ x, y, name, energized }) {
       <rect
         width={100}
         height={80}
-        fill={bodyColor}
+        // fill={bodyColor}
+        className="fill-gray-50"
         stroke={strokeColor}
         strokeWidth={2}
         rx={8}
       />
       {energized && <FlashIcon x={50} y={0 - 20} />}
       {/* Name label */}
-      <text x={50} y={-10} textAnchor="middle" fontSize="14" fontWeight="bold">
+      <text x={50} y={-10} textAnchor="middle" fontSize="14" fill="#333">
         {name}
       </text>
 

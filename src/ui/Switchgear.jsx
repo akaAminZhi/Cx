@@ -3,7 +3,7 @@ import FlashIcon from "./FlashIcon";
 import PropTypes from "prop-types";
 
 export default function Switchgear({
-  sections = [3, 2, 1, 0],
+  sections = [3, 2, 2, 3],
   energized = false,
   x = 0,
   y = 0,

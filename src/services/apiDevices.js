@@ -42,6 +42,7 @@ export async function getDevicesByProjectIdAndPage({
       query = query.or(
         `and(estimated_time_of_enegized.gte.${start},estimated_time_of_enegized.lte.${end}),and(estimated_time_of_PFPT.gte.${start},estimated_time_of_PFPT.lte.${end})`
       );
+
       // query = query
       //   .gte("estimated_time_of_enegized", start)
       //   .lte("estimated_time_of_enegized", end);

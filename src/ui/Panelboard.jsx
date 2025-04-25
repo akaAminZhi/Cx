@@ -12,14 +12,14 @@ function Panelboard({ x, y, name, energized }) {
       <rect
         width={80}
         height={120}
-        className="fill-gray-100"
+        className={`fill-gray-50 ${energized && "fill-yellow-300"}`}
         stroke={strokeColor}
         strokeWidth={2}
         rx={10}
       />
 
       {/* Name label above */}
-      <text x={40} y={-10} textAnchor="middle" fontSize="14" fontWeight="bold">
+      <text x={40} y={-10} textAnchor="middle" fontSize="14" fill="#333">
         {name}
       </text>
 

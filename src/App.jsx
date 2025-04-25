@@ -16,6 +16,8 @@ import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import Diagrams from "./pages/Diagrams";
+import DiagramDetail from "./features/diagrams/DiagramDetail";
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -64,6 +66,8 @@ function App() {
 
             <Route path="settings" element={<Settings />} />
             <Route path="users" element={<Users />} />
+            <Route path="diagrams" element={<Diagrams />} />
+            <Route path="diagrams/:projectId" element={<DiagramDetail />} />
           </Route>
           <Route path="login" element={<Login />} />
 

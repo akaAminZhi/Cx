@@ -12,7 +12,6 @@ function Header() {
   // 分割路径，过滤掉空字符串
   // const pathSegments = pathname.split("/").filter(Boolean);
   const pathSegments = getCurrentPath(pathname);
-
   // 累加路径用于生成点击跳转的路径
   let accumulatedPath = "";
   return (

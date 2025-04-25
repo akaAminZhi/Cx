@@ -3,6 +3,7 @@ import {
   HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineUsers,
+  HiOutlineMap,
 } from "react-icons/hi2";
 import { NavLink } from "react-router";
 
@@ -22,6 +23,11 @@ function MainNav() {
       toPath: "/users",
       iconName: HiOutlineUsers,
       name: "Users",
+    },
+    {
+      toPath: "/diagrams",
+      iconName: HiOutlineMap,
+      name: "Diagrams",
     },
     {
       toPath: "/settings",

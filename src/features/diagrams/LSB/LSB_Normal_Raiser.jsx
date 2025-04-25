@@ -1,10 +1,10 @@
-import Switchgear from "./Switchgear";
-import Panelboard from "./Panelboard";
-import Transformer from "./Transformer";
-import Arrow_line from "./Arrow_line";
-import PanelboardGroup from "./PanelboardGroup";
+import Switchgear from "../../../ui/Switchgear";
+import Panelboard from "../../../ui/Panelboard";
+import Transformer from "../../../ui/Transformer";
+import Arrow_line from "../../../ui/Arrow_line";
+import PanelboardGroup from "../../../ui/PanelboardGroup";
 import React from "react";
-import { useDevicesByProjectId } from "../features/devices/useDevices";
+import { useDevicesByProjectId } from "../../devices/useDevices";
 
 const X_Level_Start = -800;
 const X_Level_End = 4500;

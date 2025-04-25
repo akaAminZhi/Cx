@@ -1,10 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const PanZoomSVG = ({ width = "100%", height = "100%", children }) => {
+const PanZoomSVG = ({
+  width = "100%",
+  height = "100%",
+  children,
+  ...props
+}) => {
   const containerRef = useRef(null);
 
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.3);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
@@ -50,6 +55,7 @@ const PanZoomSVG = ({ width = "100%", height = "100%", children }) => {
         cursor: isDragging ? "grabbing" : "grab",
         userSelect: "none",
       }}
+      {...props}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={endDrag}

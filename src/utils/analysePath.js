@@ -9,7 +9,10 @@ function getProjectNameById(id) {
 }
 export function getCurrentPath(pathname) {
   const pathSegments = pathname.split("/").filter(Boolean);
-  if (pathSegments[0] === "projects" && pathSegments.length > 1) {
+  if (
+    pathSegments[0] === "projects" ||
+    (pathSegments[0] === "diagrams" && pathSegments.length > 1)
+  ) {
     pathSegments[1] = getProjectNameById(pathSegments[1]);
     return pathSegments;
   }

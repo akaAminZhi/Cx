@@ -57,11 +57,13 @@ const PanZoomSVG = ({
     const container = containerRef.current;
     if (!container) return;
     let rafId = null;
-
+    let lastEvent = null; // 只存我们需要的字段，避免复用已被清理的原生事件
     const wheelListener = (e) => {
+      e.preventDefault(); // <== 立刻阻止页面滚动
+      lastEvent = e;
       if (rafId) return; // already scheduled
       rafId = requestAnimationFrame(() => {
-        handleWheel(e);
+        handleWheel(lastEvent);
         rafId = null;
       });
     };

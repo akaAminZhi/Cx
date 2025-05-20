@@ -26,12 +26,13 @@ import DeviceStats from "../dashboard/DeviceStats";
 import Pagination from "../../ui/Pagination";
 import DeviceTableOperation from "../devices/DeviceTableOperation";
 import { useProjectDeviceStats } from "../devices/useProjectDeviceStats";
+import SearchInput from "../../ui/SearchInput";
 
 function ProjectDetail() {
   const { projectId } = useParams();
-  const location = useLocation();
-  const { projectName } = location.state || {};
-  const navigate = useNavigate();
+  // const location = useLocation();
+  // const { projectName } = location.state || {};
+  // const navigate = useNavigate();
   const { isPending, devicesByProjectIdAndPage, count } =
     useDevicesByProjectIdAndPage(Number(projectId));
   // const { isPending: getAllDevicesPending, devicesByProjectId } =
@@ -41,24 +42,6 @@ function ProjectDetail() {
   const { Energized, isEnergizing } = useEnergized();
   const { PFPTDone, isPFPTing } = usePFPTDone();
 
-  // const hoverAcition =
-  //   "hover:scale-103 hover:cursor-pointer hover:font-bold  hover:shadow-lg hover:rounded-xl hover:ring-3 hover:ring-gray-500 ";
-  // const activeAction =
-  //   "active:scale-103 active:cursor-pointer active:font-bold  active:shadow-lg active:rounded-xl active:ring-3 active:ring-gray-500 ";
-  // const handleClick = (device) => {
-  //   const { id: deviceId, name: deviceName } = device;
-  //   const navigateToDevice = () =>
-  //     navigate(`/projects/${projectId}/pfpt/${deviceId}`, {
-  //       state: { projectName, deviceName },
-  //     });
-
-  //   // 在移动设备上延迟跳转以展示 active 效果
-  //   if (window.matchMedia("(max-width: 1028px)").matches) {
-  //     setTimeout(navigateToDevice, 300);
-  //   } else {
-  //     navigateToDevice();
-  //   }
-  // };
   if (isPending || getProjectDeviceStatsPending) return <Spinner></Spinner>;
   const currentProjectDeviceStats = projectDeviceStats.find(
     (projectStats) => projectStats.project_id === Number(projectId)
@@ -80,6 +63,7 @@ function ProjectDetail() {
       <DeviceStats devices={currentProjectDeviceStats}></DeviceStats>
       <Row type="horizontal">
         <p>Devices</p>
+        <SearchInput />
         <DeviceTableOperation></DeviceTableOperation>
       </Row>
       <Menus>

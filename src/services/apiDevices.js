@@ -13,10 +13,24 @@ export async function getDevices() {
   return data;
 }
 
+export async function getDevicesBySearch(query, project_id) {
+  if (!query) return [];
+  const { data, error } = await supabase
+    .from("devices") // ← change to your table / view
+    .select("id, name")
+    .eq("project_id", project_id)
+    .ilike("name", `%${query}%`) // case‑insensitive LIKE
+    .limit(10);
+
+  if (error) throw error;
+  return data;
+}
+
 export async function getDevicesByProjectIdAndPage({
   ProjectId,
   page,
   filter,
+  searchValue,
 }) {
   let query = supabase
     .from("devices")
@@ -28,6 +42,7 @@ export async function getDevicesByProjectIdAndPage({
   // console.log(getStartOfThisWeek());
   // console.log(endOfISOWeek(new Date()));
   // FILTER
+  // console.log(searchValue);
   if (filter) {
     if (filter.value === "energized")
       query = query[filter.method || "eq"]("energized", true);
@@ -48,11 +63,19 @@ export async function getDevicesByProjectIdAndPage({
       //   .lte("estimated_time_of_enegized", end);
     }
   }
+
+  if (searchValue) {
+    // Case-insensitive “contains” on **multiple columns** for convenience
+    query = query.or(`name.ilike.%${searchValue}%`);
+  }
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
     query = query.range(from, to);
   }
+  // if (searchValue) {
+  //   query = query.eq("name", searchValue);
+  // }
   const { data, error, count } = await query;
   if (error) {
     console.error(error);

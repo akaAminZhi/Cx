@@ -19,13 +19,24 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
       : { field: "status", value: filterValue };
   // PAGINATION
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+
+  // search
+  const searchValue = searchParams.get("search")?.trim() || null;
+  // console.log(searchValue);
   const {
     isPending,
     data: { data: devicesByProjectIdAndPage, count } = {},
     error,
   } = useQuery({
-    queryKey: ["devicesByProjectIdAndPage", ProjectId, page, filter],
-    queryFn: () => getDevicesByProjectIdAndPage({ ProjectId, page, filter }),
+    queryKey: [
+      "devicesByProjectIdAndPage",
+      ProjectId,
+      page,
+      filter,
+      searchValue,
+    ],
+    queryFn: () =>
+      getDevicesByProjectIdAndPage({ ProjectId, page, filter, searchValue }),
   });
 
   // PRE-FETCHING
@@ -33,16 +44,38 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
 
   if (page < pageCount) {
     queryClient.prefetchQuery({
-      queryKey: ["devicesByProjectIdAndPage", ProjectId, page + 1, filter],
+      queryKey: [
+        "devicesByProjectIdAndPage",
+        ProjectId,
+        page + 1,
+        filter,
+        searchValue,
+      ],
       queryFn: () =>
-        getDevicesByProjectIdAndPage({ ProjectId, page: page + 1, filter }),
+        getDevicesByProjectIdAndPage({
+          ProjectId,
+          page: page + 1,
+          filter,
+          searchValue,
+        }),
     });
   }
   if (page > 1) {
     queryClient.prefetchQuery({
-      queryKey: ["devicesByProjectIdAndPage", ProjectId, page - 1, filter],
+      queryKey: [
+        "devicesByProjectIdAndPage",
+        ProjectId,
+        page - 1,
+        filter,
+        searchValue,
+      ],
       queryFn: () =>
-        getDevicesByProjectIdAndPage({ ProjectId, page: page - 1, filter }),
+        getDevicesByProjectIdAndPage({
+          ProjectId,
+          page: page - 1,
+          filter,
+          searchValue,
+        }),
     });
   }
   return { isPending, error, devicesByProjectIdAndPage, count };

@@ -27,6 +27,7 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
     isPending,
     data: { data: devicesByProjectIdAndPage, count } = {},
     error,
+    isFetching,
   } = useQuery({
     queryKey: [
       "devicesByProjectIdAndPage",
@@ -37,6 +38,8 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
     ],
     queryFn: () =>
       getDevicesByProjectIdAndPage({ ProjectId, page, filter, searchValue }),
+    keepPreviousData: true,
+    staleTime: 5_000, // ms – avoids thrashing if user types fast
   });
 
   // PRE-FETCHING
@@ -78,7 +81,7 @@ export function useDevicesByProjectIdAndPage(ProjectId) {
         }),
     });
   }
-  return { isPending, error, devicesByProjectIdAndPage, count };
+  return { isPending, error, devicesByProjectIdAndPage, count, isFetching };
 }
 
 export function useDevicesByProjectId(ProjectId) {

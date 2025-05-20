@@ -42,7 +42,7 @@ function ProjectDetail() {
   const { Energized, isEnergizing } = useEnergized();
   const { PFPTDone, isPFPTing } = usePFPTDone();
 
-  if (isPending || getProjectDeviceStatsPending) return <Spinner></Spinner>;
+  if (getProjectDeviceStatsPending) return <Spinner></Spinner>;
   const currentProjectDeviceStats = projectDeviceStats.find(
     (projectStats) => projectStats.project_id === Number(projectId)
   );
@@ -66,96 +66,98 @@ function ProjectDetail() {
         <SearchInput />
         <DeviceTableOperation></DeviceTableOperation>
       </Row>
-      <Menus>
-        <Table columns={"1fr 1fr 1fr 5rem"}>
-          <Table.Header>
-            <div>DeviceName</div>
-            <div>Energized</div>
-            <div>PFPT</div>
-            <div></div>
-          </Table.Header>
-          {devicesByProjectIdAndPage.map((device) => {
-            return (
-              <Table.Row key={device.id}>
-                <div>{device.name}</div>
-                <div>
-                  {device.energized ? (
-                    <div className="relative  ">
-                      <HiBattery100 className="w-10 h-10 text-green-500 " />
-                      <span className="text-lg text-green-500">
-                        {localDateString(device.actual_finish_time_energized)}
-                      </span>
-                    </div>
-                  ) : (
-                    <>
-                      <HiBattery0 className="w-10 h-10 text-orange-500" />
-                      <span className="text-lg text-orange-500">
-                        {localDateString(device.estimated_time_of_enegized)}
-                      </span>
-                    </>
-                  )}
-                </div>
-                <div>
-                  {device.PFPT ? (
-                    <>
-                      <HiShieldCheck className="w-10 h-10 text-green-500" />
-                      <span className="text-lg text-green-500">
-                        {localDateString(device.actual_finish_time_PFPT)}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <HiShieldExclamation className="w-10 h-10 text-orange-500" />
-                      <span className="text-lg text-orange-500">
-                        {localDateString(device.estimated_time_of_PFPT)}
-                      </span>
-                    </>
-                  )}
-                </div>
-                <Menus.Menu>
-                  <Menus.Toggle id={device.id} />
-                  <Menus.List id={device.id}>
-                    <Menus.Button icon={<HiEye className="w-10 h-10" />}>
-                      See details
-                    </Menus.Button>
-                    <Menus.Button
-                      icon={
-                        <HiBattery100 className="w-10 h-10 text-green-500" />
-                      }
-                      isDisabled={device.energized || isEnergizing}
-                      onClick={() =>
-                        Energized({
-                          deviceId: device.id,
-                          deviceObject: { ...device },
-                        })
-                      }
-                    >
-                      Energized Done
-                    </Menus.Button>
-                    <Menus.Button
-                      icon={
+      {!isPending && (
+        <Menus>
+          <Table columns={"1fr 1fr 1fr 5rem"}>
+            <Table.Header>
+              <div>DeviceName</div>
+              <div>Energized</div>
+              <div>PFPT</div>
+              <div></div>
+            </Table.Header>
+            {devicesByProjectIdAndPage.map((device) => {
+              return (
+                <Table.Row key={device.id}>
+                  <div>{device.name}</div>
+                  <div>
+                    {device.energized ? (
+                      <div className="relative  ">
+                        <HiBattery100 className="w-10 h-10 text-green-500 " />
+                        <span className="text-lg text-green-500">
+                          {localDateString(device.actual_finish_time_energized)}
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        <HiBattery0 className="w-10 h-10 text-orange-500" />
+                        <span className="text-lg text-orange-500">
+                          {localDateString(device.estimated_time_of_enegized)}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    {device.PFPT ? (
+                      <>
                         <HiShieldCheck className="w-10 h-10 text-green-500" />
-                      }
-                      isDisabled={device.PFPT || isPFPTing}
-                      onClick={() =>
-                        PFPTDone({
-                          deviceId: device.id,
-                          deviceObject: { ...device },
-                        })
-                      }
-                    >
-                      PFPT Done
-                    </Menus.Button>
-                  </Menus.List>
-                </Menus.Menu>
-              </Table.Row>
-            );
-          })}
-          <Table.Footer>
-            <Pagination count={count}></Pagination>
-          </Table.Footer>
-        </Table>
-      </Menus>
+                        <span className="text-lg text-green-500">
+                          {localDateString(device.actual_finish_time_PFPT)}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <HiShieldExclamation className="w-10 h-10 text-orange-500" />
+                        <span className="text-lg text-orange-500">
+                          {localDateString(device.estimated_time_of_PFPT)}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <Menus.Menu>
+                    <Menus.Toggle id={device.id} />
+                    <Menus.List id={device.id}>
+                      <Menus.Button icon={<HiEye className="w-10 h-10" />}>
+                        See details
+                      </Menus.Button>
+                      <Menus.Button
+                        icon={
+                          <HiBattery100 className="w-10 h-10 text-green-500" />
+                        }
+                        isDisabled={device.energized || isEnergizing}
+                        onClick={() =>
+                          Energized({
+                            deviceId: device.id,
+                            deviceObject: { ...device },
+                          })
+                        }
+                      >
+                        Energized Done
+                      </Menus.Button>
+                      <Menus.Button
+                        icon={
+                          <HiShieldCheck className="w-10 h-10 text-green-500" />
+                        }
+                        isDisabled={device.PFPT || isPFPTing}
+                        onClick={() =>
+                          PFPTDone({
+                            deviceId: device.id,
+                            deviceObject: { ...device },
+                          })
+                        }
+                      >
+                        PFPT Done
+                      </Menus.Button>
+                    </Menus.List>
+                  </Menus.Menu>
+                </Table.Row>
+              );
+            })}
+            <Table.Footer>
+              <Pagination count={count}></Pagination>
+            </Table.Footer>
+          </Table>
+        </Menus>
+      )}
     </>
   );
 }

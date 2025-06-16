@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 
 function Panelboard({ x, y, name, energized }) {
   const strokeColor = "#000000";
-
+  const colorMap = {
+    gray50: "#f9fafb",
+    yellow300: "#fde047",
+  };
   return (
     <g transform={`translate(${x}, ${y})`}>
       {energized && <FlashIcon x={40} y={-20} />}
@@ -12,7 +15,8 @@ function Panelboard({ x, y, name, energized }) {
       <rect
         width={80}
         height={120}
-        className={`fill-gray-50 ${energized && "fill-yellow-300"}`}
+        // className={`fill-gray-50 ${energized && "fill-yellow-300"}`}
+        fill={energized ? colorMap.yellow300 : colorMap.gray50}
         stroke={strokeColor}
         strokeWidth={2}
         rx={10}

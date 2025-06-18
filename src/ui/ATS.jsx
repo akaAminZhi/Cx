@@ -14,7 +14,10 @@ export default function ATS({
   const topY = 0;
   const bottomY = 0 + height;
   const armLength = 30;
-
+  const colorMap = {
+    gray50: "#f9fafb",
+    yellow300: "#fde047",
+  };
   return (
     <g transform={`translate(${x}, ${y})`}>
       {/* ATS enclosure */}
@@ -27,7 +30,8 @@ export default function ATS({
         stroke="#444"
         strokeWidth={2}
         rx={8}
-        className={energized ? "fill-yellow-300" : "fill-none"}
+        // className={energized ? "fill-yellow-300" : "fill-none"}
+        fill={energized ? colorMap.yellow300 : colorMap.gray50}
       />
 
       {/* Y-shape lines */}

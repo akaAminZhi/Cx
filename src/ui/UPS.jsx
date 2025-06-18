@@ -16,6 +16,10 @@ export default function UPS({
   name = "UPS",
   ...rest
 }) {
+  const colorMap = {
+    gray50: "#f9fafb",
+    yellow300: "#fde047",
+  };
   return (
     <g
       transform={`translate(${x} ${y}) scale(.7)`}
@@ -23,7 +27,8 @@ export default function UPS({
       strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={energized ? "fill-yellow-300" : "fill-none"}
+      // className={energized ? "fill-yellow-300" : "fill-none"}
+      fill={energized ? colorMap.yellow300 : colorMap.gray50}
       {...rest}
     >
       {energized && <FlashIcon x={40} y={-20} />}

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 function Button({
   size = "medium",
   variation = "primary",
+  selected = false,
   children,
   ...props
 }) {
@@ -21,11 +22,19 @@ function Button({
       "text-green-100 bg-green-700 hover:bg-green-800 outline-green-700",
   };
 
+  const selectedVariations = {
+    primary: "bg-indigo-800",
+    secondary: "bg-stone-200",
+    danger: "bg-red-900",
+    submitte: "bg-green-900",
+  };
   return (
     <button
       className={` flex rounded shadow-sm border-none disabled:cursor-not-allowed
           ${sizes[size]}
-          ${variations[variation]} `}
+          ${variations[variation]}
+           ${selected ? selectedVariations[variation] : ""}
+          `}
       {...props}
     >
       {children}
@@ -36,5 +45,6 @@ Button.propTypes = {
   size: PropTypes.string,
   children: PropTypes.node.isRequired,
   variation: PropTypes.string,
+  selected: PropTypes.bool,
 };
 export default Button;

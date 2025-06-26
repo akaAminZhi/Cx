@@ -1,15 +1,20 @@
 import RoomPlateOverlay from "../../../ui/RoomPlateOverlay";
+import PropTypes from "prop-types";
 
-function LSB_Level_4_Part_B() {
+function LSB_Level_4_Part_B({ highlightedRooms, onRoomClick }) {
   return (
-    <>
-      <RoomPlateOverlay
-        imageSrc={"/level_4_part_b.webp"}
-        jsonPath={"/LSB_Level_4_Part_B.json"}
-      />
-      {/* <image href="/level_4_part_b.webp" x="0" y="0" /> */}
-    </>
+    <RoomPlateOverlay
+      imageSrc="/level_4_part_b.webp"
+      jsonPath="/LSB_Level_4_Part_B.json"
+      highlightedRooms={highlightedRooms}
+      onRoomClick={onRoomClick}
+    />
   );
 }
+
+LSB_Level_4_Part_B.propTypes = {
+  highlightedRooms: PropTypes.instanceOf(Set),
+  onRoomClick: PropTypes.func,
+};
 
 export default LSB_Level_4_Part_B;

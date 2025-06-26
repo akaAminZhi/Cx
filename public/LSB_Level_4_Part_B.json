@@ -30,6 +30,16 @@
         "room_plate": "STRATEGIC PROGRAM SPACE 74065"
     },
     {
+        "x1": 2270.5179443359375,
+        "y1": 7617.13916015625,
+        "x2": 2420.453125,
+        "y2": 7763.688537597656,
+        "confidence": "0.75",
+        "weighted_score": 14335.47537563092,
+        "label": "room_plate",
+        "room_plate": "STRATEGIC PROGRAM SPACE 4063"
+    },
+    {
         "x1": 2929.9771728515625,
         "y1": 7616.0,
         "x2": 3061.9553833007812,
@@ -257,7 +267,7 @@
         "confidence": "0.87",
         "weighted_score": 9716.393074346604,
         "label": "room_plate",
-        "room_plate": "CIRCULATION 5069"
+        "room_plate": "CIRCULATION 5069 up"
     },
     {
         "x1": 8519.332641601562,
